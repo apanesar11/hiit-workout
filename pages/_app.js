@@ -1,10 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { DataContextProvider } from "../src/contexts/data/data.context";
 
 export default ({ Component, pageProps }) => {
   return (
-    <>
+    <DataContextProvider>
       <Head>
         <title>HIIT Workout</title>
       </Head>
@@ -22,6 +23,6 @@ export default ({ Component, pageProps }) => {
           box-sizing: border-box;
         }
       `}</style>
-    </>
+    </DataContextProvider>
   );
 };
