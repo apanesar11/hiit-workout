@@ -5,7 +5,9 @@ const Navbar = () => (
   <Container fluid>
     <Row className='mt-3'>
       <Col>
-        <img src={require('../../assets/logo.png')} alt='logo'/>
+        <a href="/">
+          <img src={require('../../assets/logo.png')} alt='logo'/>
+        </a>
       </Col>
     </Row>
   </Container>

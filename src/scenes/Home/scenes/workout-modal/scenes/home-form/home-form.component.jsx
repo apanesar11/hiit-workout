@@ -4,25 +4,19 @@ import {Col, Container, Row} from "react-bootstrap";
 import WorkoutButton from "../../../../components/workout-button/workout-button.component";
 import PillButton from "../../../../components/pill-button/pill-button.component";
 import {DataContext} from "../../../../../../contexts/data/data.context";
+import {UiContext} from "../../../../../../contexts/ui/ui.context";
+import {setShowTimer} from "../../../../../../contexts/ui/ui.actions";
+import {calcTotalSeconds} from "../../../../../../utils";
 
 const HomeForm = ({ options, selectOption }) => {
   const {state} = useContext(DataContext);
+  const {dispatch} = useContext(UiContext);
   const [totalMinutes, setTotalMinutes] = useState('22 Minutes');
 
-  const calcTotalMins = () => {
-    const total = parseInt((
-      (state.warmupLength === 'None' ? 0 : parseInt(state.warmupLength.split(' ')[0]) * 60) +
-      parseInt(state.totalRounds.split(' ')[0]) * (
-        parseInt(state.exerciseLength.split(' ')[0]) +
-        parseInt(state.recoveryLength.split(' ')[0])
-      ) +
-      (state.cooldownLength === 'None' ? 0 : parseInt(state.cooldownLength.split(' ')[0]) * 60)
-    )/60);
-    setTotalMinutes(`${total} Minutes`);
-  };
-
   useEffect(() => {
-    calcTotalMins();
+    const totalSeconds = calcTotalSeconds(state);
+    const updatedMinutes = totalSeconds/60;
+    setTotalMinutes(updatedMinutes + ' Minutes');
   }, [state]);
 
   const optionIdToState = id => {
@@ -51,7 +45,7 @@ const HomeForm = ({ options, selectOption }) => {
         }
       </Row>
       <h3>Total Length: <span className='font-weight-bold'>{totalMinutes}</span></h3>
-      <PillButton>Start Practice</PillButton>
+      <PillButton onClick={() => dispatch(setShowTimer(true))}>Start Practice</PillButton>
     </Container>
   );
 };

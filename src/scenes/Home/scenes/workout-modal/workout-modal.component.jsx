@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import {Modal} from "./workout-modal.styles";
 
@@ -18,8 +18,7 @@ const WorkoutModule = () => {
 
   return (
     <Container className='mt-5'>
-      <Row className='text-center'>
-        <Col md={3}> </Col>
+      <Row className='justify-content-center text-center'>
         <Col md={6}>
           <Modal>
             {
@@ -33,7 +32,6 @@ const WorkoutModule = () => {
             }
           </Modal>
         </Col>
-        <Col md={3}> </Col>
       </Row>
     </Container>
   )
