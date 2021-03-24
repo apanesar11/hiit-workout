@@ -26,7 +26,7 @@ export const MediumText = styled.h5`
 `;
 
 export const BigText = styled.h1`
-  font-size: 10vw;
+  font-size: 9vw;
   font-weight: 300;
   line-height: 1;
 `;

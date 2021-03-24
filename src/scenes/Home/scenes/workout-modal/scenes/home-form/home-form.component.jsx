@@ -6,7 +6,7 @@ import PillButton from "../../../../components/pill-button/pill-button.component
 import {DataContext} from "../../../../../../contexts/data/data.context";
 import {UiContext} from "../../../../../../contexts/ui/ui.context";
 import {setShowTimer} from "../../../../../../contexts/ui/ui.actions";
-import {calcTotalSeconds} from "../../../../../../utils";
+import {calcTotalSeconds, formatTime} from "../../../../../../utils";
 
 const HomeForm = ({ options, selectOption }) => {
   const {state} = useContext(DataContext);
@@ -15,8 +15,8 @@ const HomeForm = ({ options, selectOption }) => {
 
   useEffect(() => {
     const totalSeconds = calcTotalSeconds(state);
-    const updatedMinutes = totalSeconds/60;
-    setTotalMinutes(updatedMinutes + ' Minutes');
+    const totalTime =  formatTime(totalSeconds);
+    setTotalMinutes(totalTime);
   }, [state]);
 
   const optionIdToState = id => {
@@ -32,7 +32,7 @@ const HomeForm = ({ options, selectOption }) => {
   return (
     <Container>
       <h2 className="font-weight-bolder">{constants.TITLE}</h2>
-      <Row className='mt-5 mb-5'>
+      <Row className='mt-2 mb-2 mt-lg-5 mb-lg-5'>
         {
           options.map((props, id) => {
             const state = optionIdToState(props.id);

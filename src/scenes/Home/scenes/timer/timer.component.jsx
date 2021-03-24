@@ -5,31 +5,24 @@ import {BigText, FancyCol, MediumText} from "./timer.styles";
 import {RiRestartLine, RiPlayFill, RiPauseFill} from "react-icons/ri";
 import {IconContext} from "react-icons";
 import {DataContext} from "../../../../contexts/data/data.context";
-import {calcTotalSeconds, generateTransitions} from "../../../../utils";
+import {calcTotalSeconds, generateTransitions, formatTime} from "../../../../utils";
 
 const TimerComponent = () => {
   const {state} = useContext(DataContext);
-  const [isOn, setIsOn] = useState(false);
+  const [timerOn, setTimerOn] = useState(false);
 
   const transitions = generateTransitions(state);
   const [currTransitionIndex, setTransitionIndex] = useState(0);
-  const [currLabel, setCurrLabel] = useState(transitions[0].label);
+  const {label: currLabel, interval: currInterval} = transitions[currTransitionIndex];
+  const totalIntervals = parseInt(state.totalRounds.split(' ')[0])
 
-  const initialTime = calcTotalSeconds(state) * 1000;
-
-  const toggle = () => {
-    setIsOn(!isOn);
-  };
-
-  const formatTimeValue = value => {
-    return `${(value < 10 ? `0${value}` : value)}`;
-  };
+  const totalWorkoutTime = calcTotalSeconds(state) * 1000;
 
   const formatIntervalTime = time => {
-    const secondsElapsed = (initialTime - time)/1000;
-    if (secondsElapsed < 1) {
-      return '00 : 00';
+    if (time <= 1) {
+      return '00:00';
     }
+    const secondsElapsed = (totalWorkoutTime - time)/1000;
     let upcomingTransition = transitions[currTransitionIndex].duration;
     if (secondsElapsed > upcomingTransition) {
       const newTransitionIndex = currTransitionIndex + 1;
@@ -37,24 +30,13 @@ const TimerComponent = () => {
       setTransitionIndex(newTransitionIndex);
     }
     const secondsLeft = upcomingTransition - secondsElapsed;
-    const minutes = Math.floor(secondsLeft/60);
-    const seconds = Math.floor(secondsLeft%60);
-    return `${formatTimeValue(minutes)}:${formatTimeValue(seconds)}`;
+    return formatTime(secondsLeft);
   };
-
-  useEffect(() => {
-    setCurrLabel(transitions[currTransitionIndex].label);
-  }, [currTransitionIndex]);
 
   return (
     <Container className='mt-5'>
       <Row className='justify-content-center'>
-        <Timer
-          startImmediately={false}
-          initialTime={initialTime}
-          direction='backward'
-          formatValue={formatTimeValue}
-        >
+        <Timer startImmediately={false} initialTime={totalWorkoutTime} direction='backward'>
           {
             ({start, pause, reset, getTime}) => (
               <Col md={6}>
@@ -62,15 +44,13 @@ const TimerComponent = () => {
                   <FancyCol className='h5 font-weight-bolder'>
                     <Row>
                       <Col>Remaining:</Col>
-                      <Col>
-                        <Timer.Minutes/> : <Timer.Seconds/>
-                      </Col>
+                      <Col>{formatTime(getTime()/1000)}</Col>
                     </Row>
                   </FancyCol>
                   <FancyCol className='h5 font-weight-bold'>
                     <Row>
                       <Col>Interval:</Col>
-                      <Col>1/25</Col>
+                      <Col>{currInterval}/{totalIntervals}</Col>
                     </Row>
                   </FancyCol>
                 </Row>
@@ -84,35 +64,32 @@ const TimerComponent = () => {
                   <FancyCol lowerPadding>
                     <Row className='text-center'>
                       <Col>
-                        <IconContext.Provider
-                          value={{ size: '3em', style: {cursor: 'pointer'} }}
-                        >
+                        <IconContext.Provider value={{ size: '3em', style: {cursor: 'pointer'} }}>
                           <RiRestartLine
                             onClick={() => {
                               pause();
                               reset();
-                              setIsOn(false);
+                              setTimerOn(false);
                               setTransitionIndex(0);
                             }}
                           />
                         </IconContext.Provider>
                       </Col>
                       <Col className='border-left'>
-                        <IconContext.Provider
-                          value={{ size: '3.2em', style: {cursor: 'pointer'}}}
-                        >
-                          {!isOn ? (
+                        <IconContext.Provider value={{ size: '3.2em', style: {cursor: 'pointer'}}}>
+                          {!timerOn ?
+                            (
                               <RiPlayFill
                                 onClick={() => {
                                   start();
-                                  toggle();
+                                  setTimerOn(true);
                                 }}
                               />
                             ) : (
                               <RiPauseFill
                                 onClick={() => {
                                   pause();
-                                  toggle();
+                                  setTimerOn(false);
                                 }}
                               />
                             )

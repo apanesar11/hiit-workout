@@ -18,8 +18,8 @@ export default ({ Component, pageProps }) => {
             padding: 0;
             margin: 0;
             max-width: 100%;
-            overflow: hidden;
             font-family: Open Sans;
+            overflow-x: hidden;
           }
           * {
             box-sizing: border-box;

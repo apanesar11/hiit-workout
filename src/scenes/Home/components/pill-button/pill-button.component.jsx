@@ -3,7 +3,7 @@ import {Button} from "./pill-button.styles";
 import {Col, Row} from "react-bootstrap";
 
 const PillButton = ({children, onClick}) => (
-  <Row className='mt-5' onClick={onClick}>
+  <Row className='mt-4 mt-lg-5' onClick={onClick}>
     <Col md={1}> </Col>
     <Col md={10}>
       <Button>

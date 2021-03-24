@@ -9,8 +9,8 @@ const Home = () => {
   const {state} = useContext(UiContext);
   return(
     <>
-      <Navbar/>
       <Content>
+        <Navbar/>
         {!state.showTimer ? <WorkoutModule/> : <Timer/>}
       </Content>
     </>

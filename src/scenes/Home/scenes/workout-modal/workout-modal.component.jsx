@@ -17,9 +17,9 @@ const WorkoutModule = () => {
   };
 
   return (
-    <Container className='mt-5'>
+    <Container className='mt-lg-5 mt-1'>
       <Row className='justify-content-center text-center'>
-        <Col md={6}>
+        <Col lg={6}>
           <Modal>
             {
               !showSelectionViw ? (
