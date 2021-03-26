@@ -20,13 +20,16 @@ export const FancyCol = styled(Col)`
 `
 
 export const MediumText = styled.h5`
-  font-size: 2.7vw;
+  font-size: 50px;
   font-weight: 300;
   line-height: 1;
 `;
 
 export const BigText = styled.h1`
-  font-size: 9vw;
+  font-size: 170px;
   font-weight: 300;
   line-height: 1;
+  @media (max-width: 768px) {
+    font-size: 120px;
+  }
 `;

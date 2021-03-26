@@ -1,13 +1,13 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useContext} from "react";
 import {Container, Row, Col} from "react-bootstrap";
 import Timer from "react-compound-timer";
-import {BigText, FancyCol, MediumText} from "./timer.styles";
+import {BigText, FancyCol, MediumText} from "./timer-modal.styles";
 import {RiRestartLine, RiPlayFill, RiPauseFill} from "react-icons/ri";
 import {IconContext} from "react-icons";
 import {DataContext} from "../../../../contexts/data/data.context";
 import {calcTotalSeconds, generateTransitions, formatTime} from "../../../../utils";
 
-const TimerComponent = () => {
+const TimerModal = () => {
   const {state} = useContext(DataContext);
   const [timerOn, setTimerOn] = useState(false);
 
@@ -25,6 +25,7 @@ const TimerComponent = () => {
     const secondsElapsed = (totalWorkoutTime - time)/1000;
     let upcomingTransition = transitions[currTransitionIndex].duration;
     if (secondsElapsed > upcomingTransition) {
+      (new Audio("bell.mp3")).play();
       const newTransitionIndex = currTransitionIndex + 1;
       upcomingTransition = transitions[newTransitionIndex].duration;
       setTransitionIndex(newTransitionIndex);
@@ -39,7 +40,7 @@ const TimerComponent = () => {
         <Timer startImmediately={false} initialTime={totalWorkoutTime} direction='backward'>
           {
             ({start, pause, reset, getTime}) => (
-              <Col md={6}>
+              <Col lg={6}>
                 <Row>
                   <FancyCol className='h5 font-weight-bolder'>
                     <Row>
@@ -107,4 +108,4 @@ const TimerComponent = () => {
   )
 };
 
-export default TimerComponent;
+export default TimerModal;

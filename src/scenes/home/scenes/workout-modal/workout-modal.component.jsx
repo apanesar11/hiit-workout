@@ -3,7 +3,7 @@ import {Container, Row, Col} from "react-bootstrap";
 import {Modal} from "./workout-modal.styles";
 
 import SelectionForm from "./scenes/selection-form/selection-form.component";
-import HomeForm from "./scenes/home-form/home-form.component";
+import MainForm from "./scenes/main-form/main-form.component";
 
 import constants from "./workout-modal.constants";
 
@@ -23,7 +23,7 @@ const WorkoutModule = () => {
           <Modal>
             {
               !showSelectionViw ? (
-                <HomeForm  options={constants.OPTIONS} selectOption={selectOption}
+                <MainForm options={constants.OPTIONS} selectOption={selectOption}
                 />
               ) : (
                 <SelectionForm data={selectionData} setShowSelectionViw={setShowSelectionViw}

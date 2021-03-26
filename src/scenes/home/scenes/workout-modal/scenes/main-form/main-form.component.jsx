@@ -1,16 +1,14 @@
 import React, {useState, useContext, useEffect} from "react";
+import Link from "next/link";
 import constants from "../../workout-modal.constants";
 import {Col, Container, Row} from "react-bootstrap";
 import WorkoutButton from "../../../../components/workout-button/workout-button.component";
 import PillButton from "../../../../components/pill-button/pill-button.component";
 import {DataContext} from "../../../../../../contexts/data/data.context";
-import {UiContext} from "../../../../../../contexts/ui/ui.context";
-import {setShowTimer} from "../../../../../../contexts/ui/ui.actions";
 import {calcTotalSeconds, formatTime} from "../../../../../../utils";
 
-const HomeForm = ({ options, selectOption }) => {
+const MainForm = ({ options, selectOption }) => {
   const {state} = useContext(DataContext);
-  const {dispatch} = useContext(UiContext);
   const [totalMinutes, setTotalMinutes] = useState('22 Minutes');
 
   useEffect(() => {
@@ -45,9 +43,11 @@ const HomeForm = ({ options, selectOption }) => {
         }
       </Row>
       <h3>Total Length: <span className='font-weight-bold'>{totalMinutes}</span></h3>
-      <PillButton onClick={() => dispatch(setShowTimer(true))}>Start Practice</PillButton>
+      <Link href="/timer">
+        <PillButton>Start Practice</PillButton>
+      </Link>
     </Container>
   );
 };
 
-export default HomeForm;
+export default MainForm;
